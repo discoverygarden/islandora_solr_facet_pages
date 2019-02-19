@@ -1,4 +1,4 @@
-# Islandora Solr Facet Pages [![Build Status](https://travis-ci.org/Islandora/islandora_solr_facet_pages.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_solr_facet_pages)
+# Islandora Solr Facet Pages
 
 ## Introduction
 
@@ -12,19 +12,25 @@ Each facet page appears at _/browse/my-configured-path_.
 
 This module requires the following modules/libraries:
 
-* [Islandora](https://github.com/islandora/islandora)
+* [Islandora](https://github.com/discoverygarden/islandora)
 * [Tuque](https://github.com/islandora/tuque)
-* [Islandora Solr](https://github.com/Islandora/islandora_solr_search)
+* [Islandora Solr](https://github.com/discoverygarden/islandora_solr)
 
 ## Installation
 
-Install as usual, see [this](https://drupal.org/documentation/install/modules-themes/modules-7) for further information.
+Install as
+[usual](https://www.drupal.org/docs/8/extending-drupal-8/installing-drupal-8-modules).
 
 ## Configuration
 
-Configure facet pages at Administration » Islandora » Solr index » Facet Pages (_/admin/islandora/search/islandora_solr/facet_pages_).
+Configure facet pages at Configuration » Islandora » Solr index » Facet Pages (_/admin/configrislandora/search/islandora_solr/facet_pages_).
 
 ![Configuration](https://user-images.githubusercontent.com/1943338/32705823-6998d8f8-c7ee-11e7-8238-c801f56cffb7.png)
+
+## Documentation
+
+This module's documentation is also available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+Solr+Facet+Pages).
+
 
 ### Facet Pages
 
@@ -57,41 +63,29 @@ This search form works more intuitively on text (e.g. *_mt) facets, but as menti
 
 This module provides a block named "Islandora Solr facet pages" that can be configured in Block settings (Administration » Structure » Blocks). It contains a list of links to all configured facet pages.
 
-### Theming the Facet Pages
-
-This module provides template files for the entire page (islandora-solr-facet-pages-wrapper.tpl.php) and the results list (islandora-solr-facet-pages-results.tpl.php). The alphabetical pager uses a theme function.
-
-Template files can be overridden by a theme by copying the template file from the modules folder into the theme folder. You can override a theme per defined facet page by appending the path value to the template file. If you do, make sure to copy the original template file to your theme as well.
-
-The folder for a theme that customizes the Solr facet pages layout would look like this:
-```
-sites/all/themes/{your-theme-folder}
-├── {other files}
-├── islandora-solr-facet-pages-results.tpl.php
-├── islandora-solr-facet-pages-results--{your-path}.tpl.php
-└── islandora-solr-facet-pages-wrapper.tpl.php
-```
-
-## Documentation
-
-This module's documentation is also available at [our wiki](https://wiki.duraspace.org/display/ISLANDORA/Islandora+Solr+Facet+Pages).
-
 ## Troubleshooting/Issues
 
-Having problems or solved a problem? Check out the Islandora google groups for a solution.
+Having problems or solved one? Create an issue, check out the Islandora Google
+groups.
 
-* [Islandora Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
-* [Islandora Dev Group](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
+* [Users](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora)
+* [Devs](https://groups.google.com/forum/?hl=en&fromgroups#!forum/islandora-dev)
+
+or contact [discoverygarden](http://support.discoverygarden.ca).
 
 ## Maintainers/Sponsors
 
 Current maintainers:
 
-* [Nelson Hart](https://github.com/nhart)
+* [discoverygarden](http://www.discoverygarden.ca)
 
 ## Development
 
-If you would like to contribute to this module, please check out [CONTRIBUTING.md](CONTRIBUTING.md). In addition, we have helpful [Documentation for Developers](https://github.com/Islandora/islandora/wiki#wiki-documentation-for-developers) info, as well as our [Developers](http://islandora.ca/developers) section on the [Islandora.ca](http://islandora.ca) site.
+If you would like to contribute to this module, please check out the helpful
+[Documentation](https://github.com/Islandora/islandora/wiki#wiki-documentation-for-developers),
+[Developers](http://islandora.ca/developers) section on Islandora.ca and create
+an issue, pull request and or contact
+[discoverygarden](http://support.discoverygarden.ca).
 
 ## License
 
