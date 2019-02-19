@@ -29,11 +29,11 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
   }
 
   if ($total > 0) {
-    $results_count = t('Showing @from - @to of @total', array(
+    $results_count = t('Showing @from - @to of @total', [
       '@from' => $from,
       '@to' => $to,
       '@total' => $total,
-    ));
+    ]);
   }
   else {
     $results_count = t('No results found.');
@@ -69,8 +69,11 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
  * @see islandora_solr_facet_pages_theme()
  * @see islandora_solr_facet_pages_build_letterer()
  */
-function theme_islandora_solr_facet_pages_letterer(&$vars) {
-  extract($vars);
+function theme_islandora_solr_facet_pages_letterer(array &$vars) {
+  $preffix = $vars['prefix'];
+  $facet_queries = $vars['prefix'];
+  $fq_map = $vars['prefix'];
+  $path = $vars['path'];
 
   $output = '<ul class="islandora-solr-facet-pages-letterer">';
 
