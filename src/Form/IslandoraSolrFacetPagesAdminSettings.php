@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\islandora_solr_facet_pages\Form\IslandoraSolrFacetPagesAdminSettings.
- */
-
 namespace Drupal\islandora_solr_facet_pages\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -20,14 +15,17 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     return 'islandora_solr_facet_pages_admin_settings';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
     // Include admin CSS file.
     $admin_css = drupal_get_path('module', 'islandora_solr_facet_pages') . '/css/islandora_solr_facet_pages.admin.css';
     // @FIXME
     // The Assets API has totally changed. CSS, JavaScript, and libraries are now
     // attached directly to render arrays using the #attached property.
-    // 
-    // 
+    //
+    //
     // @see https://www.drupal.org/node/2169605
     // @see https://www.drupal.org/node/2408597
     // drupal_add_css($admin_css);
@@ -42,8 +40,8 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     // Fields.
     $form['facet_pages']['islandora_solr_facet_pages_fields_data'] = [
       '#type' => 'item',
-      '#title' => t('Facet pages'),
-      '#description' => t('Values in the selected solr field will be browsable (alphabetically) at <i>/browse/PATH</i>. <br />Save settings to access additional empty fields.'),
+      '#title' => $this->t('Facet pages'),
+      '#description' => $this->t('Values in the selected solr field will be browsable (alphabetically) at <i>/browse/PATH</i>. <br />Save settings to access additional empty fields.'),
       '#tree' => TRUE,
       '#theme' => 'islandora_solr_facet_pages_admin_table',
     ];
@@ -86,20 +84,20 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     // Limit results per page.
     $form['facet_pages']['islandora_solr_facet_pages_limit'] = [
       '#type' => 'textfield',
-      '#title' => t('Results per page'),
+      '#title' => $this->t('Results per page'),
       '#size' => 5,
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_limit'),
-      '#description' => t('Use a pager to display this many values per page.'),
+      '#description' => $this->t('Use a pager to display this many values per page.'),
     ];
 
     // Limit maximum results to be returned.
     $form['facet_pages']['islandora_solr_facet_pages_facet_limit'] = [
       '#type' => 'select',
-      '#title' => t('Maximum facet values'),
+      '#title' => $this->t('Maximum facet values'),
       '#multiple' => FALSE,
       '#options' => [],
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_facet_limit'),
-      '#description' => t('The maximum number of values returned. A higher number can cause slower page loads.'),
+      '#description' => $this->t('The maximum number of values returned. A higher number can cause slower page loads.'),
     ];
     $options = [
       1000,
@@ -123,12 +121,12 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     // Display search form on facet page.
     $form['facet_pages']['islandora_solr_facet_pages_search_form'] = [
       '#type' => 'checkbox',
-      '#title' => t('Display a search form on the facet page.'),
+      '#title' => $this->t('Display a search form on the facet page.'),
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_search_form'),
     ];
 
     $form['facet_pages']['islandora_solr_facet_pages_lucene_syntax_escape'] = [
-      '#title' => t('Use Lucene syntax string escaping on search terms'),
+      '#title' => $this->t('Use Lucene syntax string escaping on search terms'),
       '#type' => 'checkbox',
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_lucene_syntax_escape'),
       '#states' => [
@@ -146,9 +144,9 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     // config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
     $form['facet_pages']['islandora_solr_facet_pages_lucene_escape_regex'] = [
       '#type' => 'textfield',
-      '#title' => t('Regular expression evaluated on search term'),
+      '#title' => $this->t('Regular expression evaluated on search term'),
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_lucene_regex_default'),
-      '#description' => t("Used to escape special characters when found in search terms. Defaults to @regex", [
+      '#description' => $this->t("Used to escape special characters when found in search terms. Defaults to @regex", [
         '@regex' => ISLANDORA_SOLR_QUERY_FACET_LUCENE_ESCAPE_REGEX_DEFAULT
         ]),
       '#states' => [
@@ -165,12 +163,12 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
 
     $form['buttons']['submit'] = [
       '#type' => 'submit',
-      '#value' => t('Save'),
+      '#value' => $this->t('Save'),
       '#weight' => 50,
     ];
     $form['buttons']['reset'] = [
       '#type' => 'submit',
-      '#value' => t('Reset to defaults'),
+      '#value' => $this->t('Reset to defaults'),
       '#weight' => 51,
     ];
 
@@ -199,11 +197,11 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
       $limit = trim($limit);
       // Check numeric.
       if (!is_numeric($limit)) {
-        $form_state->setErrorByName('islandora_solr_facet_pages_limit', t('Results per page must be numeric.'));
+        $form_state->setErrorByName('islandora_solr_facet_pages_limit', $this->t('Results per page must be numeric.'));
       }
       // Check for no decimals.
       if (strpos($limit, '.')) {
-        $form_state->setErrorByName('islandora_solr_facet_pages_limit', t('Results per page cannot include decimals.'));
+        $form_state->setErrorByName('islandora_solr_facet_pages_limit', $this->t('Results per page cannot include decimals.'));
       }
     }
   }
@@ -231,7 +229,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         \Drupal::configFactory()->getEditable('islandora_solr_facet_pages.settings')->set('islandora_solr_facet_pages_lucene_regex_default', $form_state->getValue(['islandora_solr_facet_pages_lucene_escape_regex']))->save();
         \Drupal::configFactory()->getEditable('islandora_solr_facet_pages.settings')->set('islandora_solr_facet_pages_lucene_syntax_escape', $form_state->getValue(['islandora_solr_facet_pages_lucene_syntax_escape']))->save();
 
-        drupal_set_message(t('The configuration options have been saved.'));
+        drupal_set_message($this->t('The configuration options have been saved.'));
         break;
 
       case 'edit-reset':
@@ -251,10 +249,9 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
 
         }
 
-        drupal_set_message(t('The configuration options have been reset to their default values.'));
+        drupal_set_message($this->t('The configuration options have been reset to their default values.'));
         break;
     }
   }
 
 }
-?>

@@ -1,7 +1,4 @@
-<?php /**
- * @file
- * Contains \Drupal\islandora_solr_facet_pages\EventSubscriber\InitSubscriber.
- */
+<?php
 
 namespace Drupal\islandora_solr_facet_pages\EventSubscriber;
 
