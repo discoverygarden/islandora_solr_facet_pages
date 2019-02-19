@@ -154,7 +154,12 @@ function islandora_solr_facet_pages_build_letterer($solr, $solr_field, $search_t
     'facet.query' => $fq,
     'hl' => 'false',
   );
-  $request_handler = variable_get('islandora_solr_request_handler', FALSE);
+  // @FIXME
+// // @FIXME
+// // This looks like another module's variable. You'll need to rewrite this call
+// // to ensure that it uses the correct configuration object.
+// $request_handler = variable_get('islandora_solr_request_handler', FALSE);
+
   if ($request_handler) {
     $params['qt'] = $request_handler;
   }
@@ -177,7 +182,7 @@ function islandora_solr_facet_pages_build_letterer($solr, $solr_field, $search_t
   }
   catch (Exception $e) {
     $facet_queries = new stdClass();
-    drupal_set_message(check_plain(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
+    drupal_set_message(\Drupal\Component\Utility\Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
   }
 
   return array(
@@ -220,11 +225,16 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
     'facet.field' => $solr_field,
     'facet.sort' => 'index',
     'facet.mincount' => 1,
-    'facet.limit' => variable_get('islandora_solr_facet_pages_facet_limit', 100000),
+    'facet.limit' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_facet_limit'),
     'hl' => 'false',
   );
 
-  $request_handler = variable_get('islandora_solr_request_handler', FALSE);
+  // @FIXME
+// // @FIXME
+// // This looks like another module's variable. You'll need to rewrite this call
+// // to ensure that it uses the correct configuration object.
+// $request_handler = variable_get('islandora_solr_request_handler', FALSE);
+
   if ($request_handler) {
     $facet_params['qt'] = $request_handler;
   }
@@ -243,7 +253,7 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
   }
   catch (Exception $e) {
     $fields = array();
-    drupal_set_message(check_plain(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
+    drupal_set_message(\Drupal\Component\Utility\Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
   }
 
   return $fields;
@@ -261,7 +271,7 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
  */
 function islandora_solr_facet_pages_pager($result_fields = array()) {
   // Set variables.
-  $limit = variable_get('islandora_solr_facet_pages_limit', 25);
+  $limit = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_limit');
   $offset = 0;
   $total = NULL;
 
@@ -300,14 +310,25 @@ function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $sear
   $search_term = islandora_solr_restore_slashes($search_term);
 
   // Get available fields from variable.
-  $fields = variable_get('islandora_solr_facet_pages_fields_data', array());
+  // @FIXME
+// Could not extract the default value because it is either indeterminate, or
+// not scalar. You'll need to provide a default value in
+// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
+$fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
   // Callback validation.
   foreach ($fields as $key => $value) {
     if ($path == $value['path']) {
       // Set variables.
       $solr_field = $value['solr_field'];
-      drupal_set_title($value['label']);
+      // @FIXME
+// drupal_set_title() has been removed. There are now a few ways to set the title
+// dynamically, depending on the situation.
+// 
+// 
+// @see https://www.drupal.org/node/2067859
+// drupal_set_title($value['label']);
+
     }
   }
 
@@ -318,10 +339,23 @@ function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $sear
 
   // Include base CSS file.
   $base_css = drupal_get_path('module', 'islandora_solr_facet_pages') . '/css/islandora_solr_facet_pages.base.css';
-  drupal_add_css($base_css);
+  // @FIXME
+// The Assets API has totally changed. CSS, JavaScript, and libraries are now
+// attached directly to render arrays using the #attached property.
+// 
+// 
+// @see https://www.drupal.org/node/2169605
+// @see https://www.drupal.org/node/2408597
+// drupal_add_css($base_css);
+
 
   // Use Solr faceting to get list of names.
-  $parsed_url = parse_url(variable_get('islandora_solr_url', 'http://localhost:8080/solr'));
+  // @FIXME
+// // @FIXME
+// // This looks like another module's variable. You'll need to rewrite this call
+// // to ensure that it uses the correct configuration object.
+// $parsed_url = parse_url(variable_get('islandora_solr_url', 'http://localhost:8080/solr'));
+
   $solr = new Apache_Solr_Service($parsed_url['host'], $parsed_url['port'], $parsed_url['path']);
 
   // Create an escaped variable for the facet search term, for use with
@@ -333,21 +367,34 @@ function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $sear
   // We do this to preserve the original value of the search term, so that
   // subsequent calls to drupal_get_form() are prepopulated with the user
   // input text, and not the escaped string.
-  $show_form = variable_get('islandora_solr_facet_pages_search_form', TRUE);
-  $escape_lucene = variable_get('islandora_solr_facet_pages_lucene_syntax_escape', FALSE);
+  $show_form = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_search_form');
+  $escape_lucene = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_lucene_syntax_escape');
 
-  $search_term_escape = ($show_form && $escape_lucene) ?
-    islandora_solr_facet_query_escape($search_term, variable_get('islandora_solr_facet_pages_lucene_regex_default', ISLANDORA_SOLR_QUERY_FACET_LUCENE_ESCAPE_REGEX_DEFAULT)) :
+  // @FIXME
+// Could not extract the default value because it is either indeterminate, or
+// not scalar. You'll need to provide a default value in
+// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
+$search_term_escape = ($show_form && $escape_lucene) ?
+    islandora_solr_facet_query_escape($search_term, \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_lucene_regex_default')) :
     islandora_solr_lesser_escape($search_term);
 
   // Render letters.
   $letterer_arr = islandora_solr_facet_pages_build_letterer($solr, $solr_field, $search_term_escape);
-  $letterer = theme('islandora_solr_facet_pages_letterer', array(
-    'facet_queries' => $letterer_arr['facet_queries'],
-    'fq_map' => $letterer_arr['fq_map'],
-    'prefix' => $prefix,
-    'path' => $path,
-  ));
+  // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// $letterer = theme('islandora_solr_facet_pages_letterer', array(
+//     'facet_queries' => $letterer_arr['facet_queries'],
+//     'fq_map' => $letterer_arr['fq_map'],
+//     'prefix' => $prefix,
+//     'path' => $path,
+//   ));
+
 
   // Collect results.
   $result_fields = islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $search_term_escape);
@@ -365,38 +412,65 @@ function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $sear
 
   // Slice array.
   $results = array_slice($result_fields, $offset, $limit, TRUE);
-  $results = theme('islandora_solr_facet_pages_results', array(
-    'results' => $results,
-    'solr_field' => $solr_field,
-    'path' => $path,
-  ));
+  // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// $results = theme('islandora_solr_facet_pages_results', array(
+//     'results' => $results,
+//     'solr_field' => $solr_field,
+//     'path' => $path,
+//   ));
+
 
   // Render pager.
-  $pager = theme('pager', array(
-    'element' => 0,
-    'quantity' => 5,
-  ));
+  // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// $pager = theme('pager', array(
+//     'element' => 0,
+//     'quantity' => 5,
+//   ));
 
-  if (variable_get('islandora_solr_facet_pages_search_form', FALSE)) {
-    $form = drupal_get_form('islandora_solr_facet_pages_search_form', array(
+
+  if (\Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_search_form')) {
+    $form = \Drupal::formBuilder()->getForm('islandora_solr_facet_pages_search_form', array(
       'path' => $path,
       'prefix' => $prefix,
       'search_term' => $search_term,
     ));
-    $search_form = drupal_render($form);
+    $search_form = \Drupal::service("renderer")->render($form);
   }
   else {
     $search_form = '';
   }
 
-  return theme('islandora_solr_facet_pages_wrapper', array(
-    'search_form' => $search_form,
-    'letterer' => $letterer,
-    'results' => $results,
-    'pager' => $pager,
-    'path' => $path,
-    'pager_data' => $pager_data,
-  ));
+  // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// return theme('islandora_solr_facet_pages_wrapper', array(
+//     'search_form' => $search_form,
+//     'letterer' => $letterer,
+//     'results' => $results,
+//     'pager' => $pager,
+//     'path' => $path,
+//     'pager_data' => $pager_data,
+//   ));
+
 }
 
 /**
@@ -411,12 +485,16 @@ function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $sear
  */
 function islandora_solr_facet_pages_access_callback($path = NULL) {
   // Get available fields from variable.
-  $fields = variable_get('islandora_solr_facet_pages_fields_data', array());
+  // @FIXME
+// Could not extract the default value because it is either indeterminate, or
+// not scalar. You'll need to provide a default value in
+// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
+$fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
   // Callback validation.
   foreach ($fields as $key => $value) {
     // Check for allowed paths.
-    if ($path == $value['path'] && user_access(ISLANDORA_VIEW_OBJECTS)) {
+    if ($path == $value['path'] && \Drupal::currentUser()->hasPermission(ISLANDORA_VIEW_OBJECTS)) {
       return TRUE;
     }
   }
@@ -434,26 +512,42 @@ function islandora_solr_facet_pages_access_callback($path = NULL) {
  */
 function islandora_solr_facet_pages_block_callback() {
   // Get available fields from variable.
-  $fields = variable_get('islandora_solr_facet_pages_fields_data', array());
+  // @FIXME
+// Could not extract the default value because it is either indeterminate, or
+// not scalar. You'll need to provide a default value in
+// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
+$fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
   $items = array();
   foreach ($fields as $key => $value) {
 
-    $items[] = l($value['label'], 'browse/' . $value['path'], array(
-      'attributes' => array(
-        'title' => $value['label'],
-      ),
-    ));
+    // @FIXME
+// l() expects a Url object, created from a route name or external URI.
+// $items[] = l($value['label'], 'browse/' . $value['path'], array(
+//       'attributes' => array(
+//         'title' => $value['label'],
+//       ),
+//     ));
+
   }
 
   if (!empty($items)) {
-    return theme('item_list', array(
-      'items' => $items,
-      'type' => 'ul',
-      'attributes' => array(
-        'class' => 'islandora-solr-facet-pages-list',
-      ),
-    ));
+    // @FIXME
+// theme() has been renamed to _theme() and should NEVER be called directly.
+// Calling _theme() directly can alter the expected output and potentially
+// introduce security issues (see https://www.drupal.org/node/2195739). You
+// should use renderable arrays instead.
+// 
+// 
+// @see https://www.drupal.org/node/2195739
+// return theme('item_list', array(
+//       'items' => $items,
+//       'type' => 'ul',
+//       'attributes' => array(
+//         'class' => 'islandora-solr-facet-pages-list',
+//       ),
+//     ));
+
   }
   else {
     return FALSE;

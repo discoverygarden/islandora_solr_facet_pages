@@ -1,0 +1,12 @@
+islandora_solr_facet_pages.settings:
+    type: mapping
+    label: Settings
+    mapping:
+        islandora_solr_facet_pages_limit:
+            type: integer
+        islandora_solr_facet_pages_facet_limit:
+            type: integer
+        islandora_solr_facet_pages_search_form:
+            type: boolean
+        islandora_solr_facet_pages_lucene_syntax_escape:
+            type: boolean

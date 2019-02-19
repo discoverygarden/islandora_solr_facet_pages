@@ -1,0 +1,7 @@
+name: 'Islandora Solr Facet Pages'
+description: 'Creates alphabetical browse lists of facet values.'
+dependencies:
+    islandora_solr: 'drupal:islandora_solr'
+package: Islandora
+core: 8.x
+type: module

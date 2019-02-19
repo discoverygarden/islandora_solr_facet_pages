@@ -1,0 +1,3 @@
+islandora_solr_facet_pages.admin_settings:
+    route_name: islandora_solr_facet_pages.admin_settings
+    title: 'Facet Pages'

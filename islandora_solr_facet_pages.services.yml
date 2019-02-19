@@ -1,0 +1,6 @@
+services:
+    init_subscriber:
+        class: Drupal\islandora_solr_facet_pages\EventSubscriber\InitSubscriber
+        tags:
+            -
+                name: event_subscriber

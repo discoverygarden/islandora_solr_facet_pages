@@ -19,6 +19,11 @@ function islandora_solr_facet_pages_uninstall() {
     'islandora_solr_facet_pages_search_form',
   );
   foreach ($variables as $variable) {
-    variable_del($variable);
+    // @FIXME
+// // @FIXME
+// // The correct configuration object could not be determined. You'll need to
+// // rewrite this call manually.
+// variable_del($variable);
+
   }
 }
