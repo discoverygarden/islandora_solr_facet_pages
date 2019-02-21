@@ -10,24 +10,22 @@ use Drupal\Core\Controller\ControllerBase;
 class DefaultController extends ControllerBase {
 
   public function islandora_solr_facet_pages_access_callback($path = NULL, Drupal\Core\Session\AccountInterface $account) {
-    // Get available fields from variable.
-  // @FIXME
-// Could not extract the default value because it is either indeterminate, or
-// not scalar. You'll need to provide a default value in
-// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
-    $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
-
-    // Callback validation.
-    foreach ($fields as $key => $value) {
-      // Check for allowed paths.
-      if ($path == $value['path'] && \Drupal::currentUser()->hasPermission(ISLANDORA_VIEW_OBJECTS)) {
-        return TRUE;
-      }
-    }
-
-    return FALSE;
+    $access = islandora_solr_facet_pages_access_callback($path);
   }
 
+
+  /**
+   * Page callback function.
+   *
+   * @param string $path
+   *   Machine readable name passed in the url to decide what solr field to facet
+   *   on.
+   * @param string $prefix
+   *   Letter of the alphabet to filter on.
+   *
+   * @return string
+   *   Rendered page including letter pager, numerical pager and search results.
+   */
   public function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $search_term = NULL) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
     $search_term = islandora_solr_restore_slashes($search_term);

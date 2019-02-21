@@ -5,6 +5,9 @@ namespace Drupal\islandora_solr_facet_pages\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+/**
+ * Admin form building class.
+ */
 class IslandoraSolrFacetPagesAdminSettings extends FormBase {
 
   /**

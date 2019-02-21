@@ -5,6 +5,9 @@ namespace Drupal\islandora_solr_facet_pages\EventSubscriber;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * Includes some files.
+ */
 class InitSubscriber implements EventSubscriberInterface {
 
   /**
@@ -14,10 +17,11 @@ class InitSubscriber implements EventSubscriberInterface {
     return [KernelEvents::REQUEST => ['onEvent', 0]];
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function onEvent() {
-    // Include islandora_solr common.inc.
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
-    // Include islandora solr query_processor.inc
     module_load_include('inc', 'islandora_solr', 'includes/query_processor');
   }
 
