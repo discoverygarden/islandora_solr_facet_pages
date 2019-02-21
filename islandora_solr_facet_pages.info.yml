@@ -3,5 +3,7 @@ description: 'Creates alphabetical browse lists of facet values.'
 dependencies:
     islandora_solr: 'drupal:islandora_solr'
 package: Islandora
+configure: islandora_solr_facet_pages.admin_settings
 core: 8.x
+php: '5.5.9'
 type: module
