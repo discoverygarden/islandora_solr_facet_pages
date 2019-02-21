@@ -8,7 +8,7 @@ islandora_solr_facet_pages.callback:
     requirements:
         _custom_access: '\Drupal\islandora_solr_facet_pages\Controller\DefaultController::islandora_solr_facet_pages_access_callback'
 islandora_solr_facet_pages.admin_settings:
-    path: /admin/islandora/search/islandora_solr/facet_pages
+    path: /admin/config/islandora/search/facet_pages
     defaults:
         _title: 'Facet Pages'
         _form: \Drupal\islandora_solr_facet_pages\Form\IslandoraSolrFacetPagesAdminSettings
