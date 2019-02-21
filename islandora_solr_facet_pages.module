@@ -9,9 +9,7 @@
  * Implements hook_init().
  */
 function islandora_solr_facet_pages_init() {
-  // Include islandora_solr common.inc.
   module_load_include('inc', 'islandora_solr', 'includes/utilities');
-  // Include islandora solr query_processor.inc
   module_load_include('inc', 'islandora_solr', 'includes/query_processor');
 }
 

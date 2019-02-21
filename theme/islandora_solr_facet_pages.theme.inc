@@ -70,7 +70,7 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
  * @see islandora_solr_facet_pages_build_letterer()
  */
 function theme_islandora_solr_facet_pages_letterer(array &$vars) {
-  $preffix = $vars['prefix'];
+  $prefix = $vars['prefix'];
   $facet_queries = $vars['prefix'];
   $fq_map = $vars['prefix'];
   $path = $vars['path'];

@@ -4,7 +4,6 @@ namespace Drupal\islandora_solr_facet_pages\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element;
 
 class IslandoraSolrFacetPagesAdminSettings extends FormBase {
 
@@ -18,7 +17,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state) {
     // Include admin CSS file.
     $admin_css = drupal_get_path('module', 'islandora_solr_facet_pages') . '/css/islandora_solr_facet_pages.admin.css';
     // @FIXME
@@ -133,8 +132,8 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         'visible' => [
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
             'checked' => TRUE
-            ]
-          ]
+            ],
+          ],
         ],
     ];
 
@@ -157,7 +156,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
             'checked' => TRUE
             ],
-        ]
+        ],
         ],
     ];
 
@@ -175,7 +174,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     return $form;
   }
 
-  public function validateForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  public function validateForm(array &$form, FormStateInterface $form_state) {
 
     // On save.
     if ($form_state->get(['clicked_button', '#id']) == 'edit-submit') {
@@ -206,7 +205,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     }
   }
 
-  public function submitForm(array &$form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state) {
 
     // Get operation.
     $op = $form_state->getTriggeringElement();
