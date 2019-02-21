@@ -61,7 +61,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     }
 
     $fields = [];
-    foreach ($fields_data as $key => $value) {
+    foreach ($fields_data as $value) {
       $field = [
         'solr_field' => [
           '#type' => 'textfield',
@@ -134,7 +134,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
       '#states' => [
         'visible' => [
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
-            'checked' => TRUE
+            'checked' => TRUE,
             ],
           ],
         ],
@@ -154,10 +154,10 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
       '#states' => [
         'visible' => [
           ':input[name="islandora_solr_facet_pages_lucene_syntax_escape"]' => [
-            'checked' => TRUE
+            'checked' => TRUE,
             ],
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
-            'checked' => TRUE
+            'checked' => TRUE,
             ],
         ],
         ],
@@ -177,6 +177,9 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
 
     // On save.
@@ -208,6 +211,9 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     // Get operation.
@@ -219,7 +225,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         // Clean up array.
         $fields_data = $form_state->getValue(['islandora_solr_facet_pages_fields_data', 'fields']);
         foreach ($fields_data as $key => $value) {
-          if (empty($value['solr_field']) AND empty($value['label']) AND empty($value['path'])) {
+          if (empty($value['solr_field']) && empty($value['label']) && empty($value['path'])) {
             unset($fields_data[$key]);
           }
         }

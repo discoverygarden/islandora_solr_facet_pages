@@ -9,10 +9,17 @@ use Drupal\Core\Controller\ControllerBase;
  */
 class DefaultController extends ControllerBase {
 
+  /**
+   * Facet pages access callback.
+   *
+   * @param string $path
+   *   Machine readable name passed in the url to decide what solr field to
+   *   facet on.
+   */
   public function islandora_solr_facet_pages_access_callback($path = NULL, Drupal\Core\Session\AccountInterface $account) {
     $access = islandora_solr_facet_pages_access_callback($path);
+    // @TODO: implement.
   }
-
 
   /**
    * Page callback function.

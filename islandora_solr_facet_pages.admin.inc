@@ -10,29 +10,29 @@
  */
 function theme_islandora_solr_facet_pages_admin_table(&$vars) {
   // Set variable.
-  $rows = array();
+  $rows = [];
   $form = $vars['form'];
 
   // Render islandora_solr_primary_display_table.
   foreach ($form['fields'] as $key => $elements) {
 
-    $row = array();
+    $row = [];
     // Check if $key is really the array we need. we shouldn't select the
     // #parent array for example.
     if (is_array($elements) && \Drupal\Core\Render\Element::child($key)) {
 
-      $row[] = array('data' => \Drupal::service("renderer")->render($form['fields'][$key]['solr_field']));
-      $row[] = array('data' => \Drupal::service("renderer")->render($form['fields'][$key]['label']));
-      $row[] = array('data' => \Drupal::service("renderer")->render($form['fields'][$key]['path']));
+      $row[] = ['data' => \Drupal::service("renderer")->render($form['fields'][$key]['solr_field'])];
+      $row[] = ['data' => \Drupal::service("renderer")->render($form['fields'][$key]['label'])];
+      $row[] = ['data' => \Drupal::service("renderer")->render($form['fields'][$key]['path'])];
       $rows[] = $row;
     }
   }
 
   // Individual table headers.
-  $header = array();
-  $header[] = array('data' => t('Solr field'));
-  $header[] = array('data' => t('Label'));
-  $header[] = array('data' => t('Path'));
+  $header = [];
+  $header[] = ['data' => t('Solr field')];
+  $header[] = ['data' => t('Label')];
+  $header[] = ['data' => t('Path')];
 
   // Render table.
   // @FIXME
