@@ -9,8 +9,6 @@ authors or all subject headings present in an Islandora repository.
 
 Each facet page appears at _/browse/my-configured-path_.
 
-![Example](docs/solr-facet-page-example.png)
-
 ## Requirements
 
 This module requires the following modules/libraries:
