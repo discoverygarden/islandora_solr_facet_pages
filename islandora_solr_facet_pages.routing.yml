@@ -1,5 +1,5 @@
 islandora_solr_facet_pages.callback:
-    path: '/browse/{path}/{path}/{prefix}/{search_term}'
+    path: '/browse/{path}/{prefix}/{search_term}'
     defaults:
         path: null
         prefix: null
