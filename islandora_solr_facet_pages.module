@@ -35,6 +35,8 @@ function islandora_solr_facet_pages_theme() {
       ],
     ],
     'islandora_solr_facet_pages_letterer' => $base + [
+      'file' => 'theme/islandora_solr_facet_pages.theme.inc',
+      'function' => 'theme_islandora_solr_facet_pages_letterer',
       'variables' => [
         'facet_queries' => [],
         'fq_map' => [],
@@ -43,6 +45,7 @@ function islandora_solr_facet_pages_theme() {
       ],
     ],
     'islandora_solr_facet_pages_admin_table' => [
+      'function' => 'theme_islandora_solr_facet_pages_admin_table',
       'file' => 'islandora_solr_facet_pages.admin.inc',
       'render element' => 'form',
     ],
