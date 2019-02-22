@@ -5,6 +5,8 @@
  * Admin functionality.
  */
 
+use Drupal\Core\Render\Element;
+
 /**
  * Theme callback.
  */
@@ -19,7 +21,7 @@ function theme_islandora_solr_facet_pages_admin_table(&$vars) {
     $row = [];
     // Check if $key is really the array we need. we shouldn't select the
     // #parent array for example.
-    if (is_array($elements) && \Drupal\Core\Render\Element::child($key)) {
+    if (is_array($elements) && Element::child($key)) {
 
       $row[] = ['data' => \Drupal::service("renderer")->render($form['fields'][$key]['solr_field'])];
       $row[] = ['data' => \Drupal::service("renderer")->render($form['fields'][$key]['label'])];

@@ -26,13 +26,7 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
     // @FIXME
     // The Assets API has totally changed. CSS, JavaScript, and libraries are now
     // attached directly to render arrays using the #attached property.
-    //
-    //
-    // @see https://www.drupal.org/node/2169605
-    // @see https://www.drupal.org/node/2408597
     // drupal_add_css($admin_css);
-
-
     $form['facet_pages'] = [
       '#type' => 'fieldset',
       '#collapsible' => FALSE,
@@ -135,9 +129,9 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         'visible' => [
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
             'checked' => TRUE,
-            ],
           ],
         ],
+      ],
     ];
 
     $form['facet_pages']['islandora_solr_facet_pages_lucene_escape_regex'] = [
@@ -145,18 +139,18 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
       '#title' => $this->t('Regular expression evaluated on search term'),
       '#default_value' => \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_lucene_regex_default'),
       '#description' => $this->t("Used to escape special characters when found in search terms. Defaults to @regex", [
-        '@regex' => ISLANDORA_SOLR_QUERY_FACET_LUCENE_ESCAPE_REGEX_DEFAULT
-        ]),
+        '@regex' => ISLANDORA_SOLR_QUERY_FACET_LUCENE_ESCAPE_REGEX_DEFAULT,
+      ]),
       '#states' => [
         'visible' => [
           ':input[name="islandora_solr_facet_pages_lucene_syntax_escape"]' => [
             'checked' => TRUE,
-            ],
+          ],
           ':input[name="islandora_solr_facet_pages_search_form"]' => [
             'checked' => TRUE,
-            ],
+          ],
         ],
-        ],
+      ],
     ];
 
     $form['buttons']['submit'] = [
@@ -187,14 +181,14 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         'fields',
       ]) as $key => $value) {
         if (!preg_match("/^[a-zA-Z0-9-_]*$/", $value['path'])) {
-          $form_state->setErrorByName('islandora_solr_facet_pages_fields_data][fields][' . $key . '][path', t('The path can only contain the following characters: a-z, A-Z, 0-9, - and _'));
+          $form_state->setErrorByName('islandora_solr_facet_pages_fields_data][fields][' . $key . '][path', $this->t('The path can only contain the following characters: a-z, A-Z, 0-9, - and _'));
         }
       }
 
       // Get limit value.
       $limit = $form_state->getValue([
-        'islandora_solr_facet_pages_limit'
-        ]);
+        'islandora_solr_facet_pages_limit',
+      ]);
       $limit = trim($limit);
       // Check numeric.
       if (!is_numeric($limit)) {
@@ -211,11 +205,6 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
-    // Get operation.
-    $op = $form_state->getTriggeringElement();
-
-    // Set variables.
     // Clean up array.
     $fields_data = $form_state->getValue(['islandora_solr_facet_pages_fields_data', 'fields']);
     foreach ($fields_data as $key => $value) {

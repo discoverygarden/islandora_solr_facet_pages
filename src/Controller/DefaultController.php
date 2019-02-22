@@ -3,6 +3,7 @@
 namespace Drupal\islandora_solr_facet_pages\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Default controller for the islandora_solr_facet_pages module.
@@ -15,8 +16,10 @@ class DefaultController extends ControllerBase {
    * @param string $path
    *   Machine readable name passed in the url to decide what solr field to
    *   facet on.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   User to check access for.
    */
-  public function islandora_solr_facet_pages_access_callback($path = NULL, Drupal\Core\Session\AccountInterface $account) {
+  public function islandora_solr_facet_pages_access_callback($path = NULL, AccountInterface $account) {
     $access = islandora_solr_facet_pages_access_callback($path);
     // @TODO: implement.
   }
@@ -198,7 +201,6 @@ class DefaultController extends ControllerBase {
     //     'path' => $path,
     //     'pager_data' => $pager_data,
     //   ));
-
   }
 
 }
