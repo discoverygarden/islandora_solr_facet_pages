@@ -133,7 +133,6 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
         ],
       ],
     ];
-
     $form['facet_pages']['islandora_solr_facet_pages_lucene_escape_regex'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Regular expression evaluated on search term'),
@@ -157,11 +156,6 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Save'),
       '#weight' => 50,
-    ];
-    $form['buttons']['reset'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Reset to defaults'),
-      '#weight' => 51,
     ];
 
     return $form;

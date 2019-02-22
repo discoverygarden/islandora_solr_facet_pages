@@ -10,5 +10,5 @@ islandora_solr_facet_pages.settings:
             type: boolean
         islandora_solr_facet_pages_lucene_syntax_escape:
             type: boolean
-        islandora_solr_facet_pages_lucene_escape_regex:
+        islandora_solr_facet_pages_lucene_regex_default:
             type: string
