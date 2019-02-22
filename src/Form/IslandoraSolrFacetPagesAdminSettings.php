@@ -21,12 +21,8 @@ class IslandoraSolrFacetPagesAdminSettings extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // Include admin CSS file.
-    $admin_css = drupal_get_path('module', 'islandora_solr_facet_pages') . '/css/islandora_solr_facet_pages.admin.css';
-    // @FIXME
-    // The Assets API has totally changed. CSS, JavaScript, and libraries are now
-    // attached directly to render arrays using the #attached property.
-    // drupal_add_css($admin_css);
+    $form['#attached']['library'][] = 'islandora_solr_facet_pages/admin';
+
     $form['facet_pages'] = [
       '#type' => 'fieldset',
       '#collapsible' => FALSE,

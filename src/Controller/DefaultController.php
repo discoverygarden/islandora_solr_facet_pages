@@ -68,18 +68,6 @@ class DefaultController extends ControllerBase {
       $prefix = t('ALL');
     }
 
-    // Include base CSS file.
-    $base_css = drupal_get_path('module', 'islandora_solr_facet_pages') . '/css/islandora_solr_facet_pages.base.css';
-    // @FIXME
-    // The Assets API has totally changed. CSS, JavaScript, and libraries are now
-    // attached directly to render arrays using the #attached property.
-    //
-    //
-    // @see https://www.drupal.org/node/2169605
-    // @see https://www.drupal.org/node/2408597
-    // drupal_add_css($base_css);
-
-
     // Use Solr faceting to get list of names.
     // @FIXME
     // // @FIXME
@@ -185,6 +173,8 @@ class DefaultController extends ControllerBase {
       $search_form = '';
     }
 
+    $facet_pages_wrapper = [];
+    $facet_pages_wrapper['#attached']['library'][] = 'islandora_solr_facet_pages/base';
     // @FIXME
     // theme() has been renamed to _theme() and should NEVER be called directly.
     // Calling _theme() directly can alter the expected output and potentially
