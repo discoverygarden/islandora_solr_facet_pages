@@ -4,6 +4,9 @@ namespace Drupal\islandora_solr_facet_pages\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Access\AccessResult;
+
+use Drupal\islandora_solr\SolrPhpClient\Apache\Solr\Apache_Solr_Service;
 
 /**
  * Default controller for the islandora_solr_facet_pages module.
@@ -21,7 +24,7 @@ class DefaultController extends ControllerBase {
    */
   public function islandora_solr_facet_pages_access_callback($path = NULL, AccountInterface $account) {
     $access = islandora_solr_facet_pages_access_callback($path);
-    // @TODO: implement.
+    return $access ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
   /**
