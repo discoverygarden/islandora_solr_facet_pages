@@ -1,5 +1,4 @@
-<?php
-
+{#
 /**
  * @file
  * islandora-solr-facet-pages-wrapper.tpl.php
@@ -16,15 +15,15 @@
  * - $results: Rendered list of facet values
  *
  */
-?>
+#}
 
 <div class="islandora-solr-facet-pages-wrapper">
 
-  <?php print $search_form; ?>
-  <?php print $letterer; ?>
-  <?php print $pager; ?>
-  <span class="results-count"><?php print $results_count; ?></span>
-  <?php print $results; ?>
-  <?php print $pager; ?>
-  <?php print $letterer; ?>
+  {{ search_form }}
+  {{ letterer }}
+  {{ pager }}
+  <span class="results-count">{{ results_count }}</span>
+  {{ results }}
+  {{ pager }}
+  {{ letterer }}
 </div>

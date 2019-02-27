@@ -5,18 +5,14 @@
  * Various hook and function implementations.
  */
 
+use Drupal\islandora_solr\IslandoraSolrQueryProcessor;
+
 /**
  * Implements hook_theme().
  */
 function islandora_solr_facet_pages_theme() {
-  // Set path.
-  $base = [
-    'path' => drupal_get_path('module', 'islandora_solr_facet_pages') . '/theme',
-    'file' => 'islandora_solr_facet_pages.theme.inc',
-  ];
-
   return [
-    'islandora_solr_facet_pages_wrapper' => $base + [
+    'islandora_solr_facet_pages_wrapper' => [
       'template' => 'islandora-solr-facet-pages-wrapper',
       'variables' => [
         'letterer' => NULL,
@@ -26,7 +22,7 @@ function islandora_solr_facet_pages_theme() {
         'pager_data' => [],
       ],
     ],
-    'islandora_solr_facet_pages_results' => $base + [
+    'islandora_solr_facet_pages_results' => [
       'template' => 'islandora-solr-facet-pages-results',
       'variables' => [
         'results' => [],
@@ -34,13 +30,13 @@ function islandora_solr_facet_pages_theme() {
         'path' => NULL,
       ],
     ],
-    'islandora_solr_facet_pages_letterer' => $base + [
+    'islandora_solr_facet_pages_letterer' => [
       'file' => 'theme/islandora_solr_facet_pages.theme.inc',
       'function' => 'theme_islandora_solr_facet_pages_letterer',
       'variables' => [
         'facet_queries' => [],
         'fq_map' => [],
-        'prefix' => NULL,
+        'search_prefix' => NULL,
         'path' => NULL,
       ],
     ],
@@ -120,11 +116,7 @@ function islandora_solr_facet_pages_build_letterer($solr, $solr_field, $search_t
     'facet.query' => $fq,
     'hl' => 'false',
   ];
-  // @FIXME
-// // @FIXME
-// // This looks like another module's variable. You'll need to rewrite this call
-// // to ensure that it uses the correct configuration object.
-// $request_handler = variable_get('islandora_solr_request_handler', FALSE);
+  $request_handler = \Drupal::config('islandora_solr.settings')->get('islandora_solr_request_handler');
 
   if ($request_handler) {
     $params['qt'] = $request_handler;
@@ -195,12 +187,7 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
     'hl' => 'false',
   ];
 
-  // @FIXME
-// // @FIXME
-// // This looks like another module's variable. You'll need to rewrite this call
-// // to ensure that it uses the correct configuration object.
-// $request_handler = variable_get('islandora_solr_request_handler', FALSE);
-
+  $request_handler = \Drupal::config('islandora_solr.settings')->get('islandora_solr_request_handler');
   if ($request_handler) {
     $facet_params['qt'] = $request_handler;
   }
