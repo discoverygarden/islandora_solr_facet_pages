@@ -43,12 +43,6 @@ class DefaultController extends ControllerBase {
   public function facetPagesCallback($path = NULL, $prefix = NULL, $search_term = NULL) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
     $search_term = islandora_solr_restore_slashes($search_term);
-
-    // Get available fields from variable.
-    // @FIXME
-    // Could not extract the default value because it is either indeterminate, or
-    // not scalar. You'll need to provide a default value in
-    // config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
     $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
     // Callback validation.

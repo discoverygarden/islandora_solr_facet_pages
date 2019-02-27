@@ -3,3 +3,4 @@ islandora_solr_facet_pages_facet_limit: 100000
 islandora_solr_facet_pages_search_form: false
 islandora_solr_facet_pages_lucene_syntax_escape: false
 islandora_solr_facet_pages_lucene_regex_default: '/(\+|-|&&|\|\||!|\(|\)|\{|\}|\[|\]|\^| |~|\*|\?|\:|"|\\\\|\\/)/'
+islandora_solr_facet_pages_fields_data: []
