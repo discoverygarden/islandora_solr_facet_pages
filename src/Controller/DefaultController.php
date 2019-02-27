@@ -22,7 +22,7 @@ class DefaultController extends ControllerBase {
    * @param \Drupal\Core\Session\AccountInterface $account
    *   User to check access for.
    */
-  public function islandora_solr_facet_pages_access_callback($path = NULL, AccountInterface $account) {
+  public function facetPagesAccess($path = NULL, AccountInterface $account = NULL) {
     $access = islandora_solr_facet_pages_access_callback($path);
     return $access ? AccessResult::allowed() : AccessResult::forbidden();
   }
@@ -31,15 +31,16 @@ class DefaultController extends ControllerBase {
    * Page callback function.
    *
    * @param string $path
-   *   Machine readable name passed in the url to decide what solr field to facet
-   *   on.
+   *   Machine name passed in the URL to decide what Solr field to facet on.
    * @param string $prefix
    *   Letter of the alphabet to filter on.
+   * @param string $search_term
+   *   Term to search on.
    *
    * @return string
    *   Rendered page including letter pager, numerical pager and search results.
    */
-  public function islandora_solr_facet_pages_callback($path = NULL, $prefix = NULL, $search_term = NULL) {
+  public function facetPagesCallback($path = NULL, $prefix = NULL, $search_term = NULL) {
     module_load_include('inc', 'islandora_solr', 'includes/utilities');
     $search_term = islandora_solr_restore_slashes($search_term);
 
@@ -68,7 +69,7 @@ class DefaultController extends ControllerBase {
 
     // Set default prefix.
     if ($prefix == NULL) {
-      $prefix = t('ALL');
+      $prefix = $this->t('ALL');
     }
 
     // Use Solr faceting to get list of names.
@@ -117,7 +118,6 @@ class DefaultController extends ControllerBase {
     //     'path' => $path,
     //   ));
 
-
     // Collect results.
     $result_fields = islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $search_term_escape);
     // Collect results with lowercase.
@@ -148,7 +148,6 @@ class DefaultController extends ControllerBase {
     //     'path' => $path,
     //   ));
 
-
     // Render pager.
     // @FIXME
     // theme() has been renamed to _theme() and should NEVER be called directly.
@@ -162,7 +161,6 @@ class DefaultController extends ControllerBase {
     //     'element' => 0,
     //     'quantity' => 5,
     //   ));
-
 
     if (\Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_search_form')) {
       $form = \Drupal::formBuilder()->getForm('islandora_solr_facet_pages_search_form', [

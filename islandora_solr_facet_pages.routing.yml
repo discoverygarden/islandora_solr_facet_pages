@@ -4,9 +4,9 @@ islandora_solr_facet_pages.callback:
         path: null
         prefix: null
         search_term: null
-        _controller: '\Drupal\islandora_solr_facet_pages\Controller\DefaultController::islandora_solr_facet_pages_callback'
+        _controller: '\Drupal\islandora_solr_facet_pages\Controller\DefaultController::facetPagesCallback'
     requirements:
-        _custom_access: '\Drupal\islandora_solr_facet_pages\Controller\DefaultController::islandora_solr_facet_pages_access_callback'
+        _custom_access: '\Drupal\islandora_solr_facet_pages\Controller\DefaultController::facetPagesAccess'
 islandora_solr_facet_pages.admin_settings:
     path: /admin/config/islandora/search/facet_pages
     defaults:
