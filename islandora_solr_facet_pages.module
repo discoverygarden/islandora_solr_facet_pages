@@ -270,12 +270,7 @@ function islandora_solr_facet_pages_pager(array $result_fields = []) {
  *   A boolean based on user access and valid path.
  */
 function islandora_solr_facet_pages_access_callback($path = NULL) {
-  // Get available fields from variable.
-  // @FIXME
-// Could not extract the default value because it is either indeterminate, or
-// not scalar. You'll need to provide a default value in
-// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
-$fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
+  $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
   // Callback validation.
   foreach ($fields as $value) {
@@ -297,12 +292,7 @@ $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora
  *   pages.
  */
 function islandora_solr_facet_pages_block_callback() {
-  // Get available fields from variable.
-  // @FIXME
-// Could not extract the default value because it is either indeterminate, or
-// not scalar. You'll need to provide a default value in
-// config/install/islandora_solr_facet_pages.settings.yml and config/schema/islandora_solr_facet_pages.schema.yml.
-$fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
+  $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
   $items = [];
   foreach ($fields as $value) {
