@@ -49,34 +49,6 @@ function islandora_solr_facet_pages_theme() {
 }
 
 /**
- * Implements hook_block_info().
- */
-function islandora_solr_facet_pages_block_info() {
-  return array(
-    'islandora-solr-facet-pages' => array(
-      'info' => t('Islandora Solr facet pages'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-  );
-}
-
-/**
- * Implements hook_block_view().
- */
-function islandora_solr_facet_pages_block_view($delta = '') {
-  $block = [];
-
-  switch ($delta) {
-    case 'islandora-solr-facet-pages':
-      $block['subject'] = t('Islandora Solr facet pages');
-      $block['content'] = islandora_solr_facet_pages_block_callback();
-      break;
-  }
-
-  return $block;
-}
-
-/**
  * Performs a solr query to get facets fields for the alphabetical pager.
  *
  * It makes use of facet queries.
@@ -268,53 +240,6 @@ function islandora_solr_facet_pages_access_callback($path = NULL) {
   }
 
   return FALSE;
-}
-
-
-/**
- * Callback function to populate the facet page block with links.
- *
- * @return string
- *   Returns a rendered bulletted list with links to all configured facet
- *   pages.
- */
-function islandora_solr_facet_pages_block_callback() {
-  $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
-
-  $items = [];
-  foreach ($fields as $value) {
-
-    // @FIXME
-// l() expects a Url object, created from a route name or external URI.
-// $items[] = l($value['label'], 'browse/' . $value['path'], array(
-//       'attributes' => array(
-//         'title' => $value['label'],
-//       ),
-//     ));
-
-  }
-
-  if (!empty($items)) {
-    // @FIXME
-// theme() has been renamed to _theme() and should NEVER be called directly.
-// Calling _theme() directly can alter the expected output and potentially
-// introduce security issues (see https://www.drupal.org/node/2195739). You
-// should use renderable arrays instead.
-//
-//
-// @see https://www.drupal.org/node/2195739
-// return theme('item_list', array(
-//       'items' => $items,
-//       'type' => 'ul',
-//       'attributes' => array(
-//         'class' => 'islandora-solr-facet-pages-list',
-//       ),
-//     ));
-
-  }
-  else {
-    return FALSE;
-  }
 }
 
 /**
