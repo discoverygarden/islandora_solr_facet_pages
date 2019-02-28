@@ -22,6 +22,7 @@ function islandora_solr_facet_pages_theme() {
         'pager' => NULL,
         'path' => NULL,
         'pager_data' => [],
+        'search_form' => [],
       ],
     ],
     'islandora_solr_facet_pages_results' => [
@@ -241,53 +242,4 @@ function islandora_solr_facet_pages_access_callback($path = NULL) {
   }
 
   return FALSE;
-}
-
-/**
- * Defines a facet search form for search facets.
- *
- * @param array $form
- *   The Drupal form.
- * @param array $form_state
- *   The Drupal form state.
- * @param array $vars
- *   Current facet variables to use in the search form.
- *
- * @return array
- *   The Drupal form definition.
- */
-function islandora_solr_facet_pages_search_form(array $form, array &$form_state, array $vars = []) {
-  $form = [];
-  $form_state['storage'] = [
-    'vars' => $vars,
-  ];
-  $form['search_term'] = [
-    '#type' => 'textfield',
-    '#title' => t('Search'),
-    '#default_value' => (isset($vars['search_term']) ? $vars['search_term'] : ''),
-    '#size' => 60,
-  ];
-  $form['submit'] = [
-    '#type' => 'submit',
-    '#value' => t('Search'),
-  ];
-  return $form;
-}
-
-/**
- * Submit handler for solr facet page search form.
- *
- * @param array $form
- *   The Drupal form.
- * @param array $form_state
- *   The Drupal form state.
- */
-function islandora_solr_facet_pages_search_form_submit(array $form, array &$form_state) {
-  module_load_include('inc', 'islandora_solr', 'includes/utilities');
-  $form_state['redirect'] = implode('/', [
-    'browse',
-    $form_state['storage']['vars']['path'],
-    $form_state['storage']['vars']['prefix'],
-    islandora_solr_replace_slashes(trim($form_state['values']['search_term'])),
-  ]);
 }

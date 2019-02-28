@@ -126,7 +126,7 @@ class DefaultController extends ControllerBase {
     ];
 
     if ($this->config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_search_form')) {
-      $search_form = $this->formBuilder()->getForm('islandora_solr_facet_pages_search_form', [
+      $search_form = $this->formBuilder()->getForm('Drupal\islandora_solr_facet_pages\Form\SearchForm', [
         'path' => $path,
         'prefix' => $prefix,
         'search_term' => $search_term,
@@ -135,7 +135,6 @@ class DefaultController extends ControllerBase {
     else {
       $search_form = '';
     }
-
     $facet_pages_wrapper = [
       '#theme' => 'islandora_solr_facet_pages_wrapper',
       '#search_form' => $search_form,
