@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\Islandora_solr_facet_pages\Plugin\Block;
+namespace Drupal\islandora_solr_facet_pages\Plugin\Block;
 
-use Drupal\Core\Block\BlockBase;
+use Drupal\islandora\Plugin\Block\AbstractConfiguredBlockBase;
 use Drupal\Core\Link;
 
 /**
@@ -14,26 +14,20 @@ use Drupal\Core\Link;
  *   category = @Translation("Islandora Solr facet pages"),
  * )
  */
-class ListFacetPages extends BlockBase {
+class ListFacetPages extends AbstractConfiguredBlockBase {
 
   /**
    * {@inheritdoc}
    */
   public function build() {
     $block = [];
-    $fields = \Drupal::config('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
+    $fields = $this->configFactory->get('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
     $items = [];
     foreach ($fields as $value) {
-/**
-      $items[] = Link::createFromRoute(
-        'islandora_solr_facet_pages.callback',
-        ['path' => $value['path']],
-        ['attributes' => ['title' => $value['label']]]
-      );
-*/
       $items[] = [
         '#markup' => Link::createFromRoute(
+          $value['label'],
           'islandora_solr_facet_pages.callback',
           ['path' => $value['path']],
           ['attributes' => ['title' => $value['label']]]

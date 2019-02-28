@@ -5,6 +5,8 @@
  * Various hook and function implementations.
  */
 
+use Drupal\Component\Utility\Html;
+
 use Drupal\islandora_solr\IslandoraSolrQueryProcessor;
 
 /**
@@ -112,7 +114,7 @@ function islandora_solr_facet_pages_build_letterer($solr, $solr_field, $search_t
   }
   catch (Exception $e) {
     $facet_queries = new stdClass();
-    drupal_set_message(\Drupal\Component\Utility\Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
+    drupal_set_message(Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
   }
 
   return [
@@ -169,7 +171,6 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
     $facet_params['facet.prefix'] = $prefix;
   }
   $solr_build->buildQuery($query, $facet_params);
-  $solr_query = ($solr_build->internalSolrQuery) ? $solr_build->internalSolrQuery : $solr_build->solrQuery;
   // Because the IslandoraSolrQueryProcessor stomps on our facet information.
   $solr_build->solrParams = array_replace_recursive($solr_build->solrParams, $facet_params);
   try {
@@ -178,7 +179,7 @@ function islandora_solr_facet_pages_build_results($solr, $solr_field, $prefix, $
   }
   catch (Exception $e) {
     $fields = [];
-    drupal_set_message(\Drupal\Component\Utility\Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
+    drupal_set_message(Html::escape(t('Error searching Solr index')) . ' ' . $e->getMessage(), 'error', FALSE);
   }
 
   return $fields;
