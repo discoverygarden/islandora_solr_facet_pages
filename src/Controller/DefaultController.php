@@ -5,6 +5,9 @@ namespace Drupal\islandora_solr_facet_pages\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Render\Renderer;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Drupal\islandora_solr\SolrPhpClient\Apache\Solr\Apache_Solr_Service;
 
@@ -12,6 +15,25 @@ use Drupal\islandora_solr\SolrPhpClient\Apache\Solr\Apache_Solr_Service;
  * Default controller for the islandora_solr_facet_pages module.
  */
 class DefaultController extends ControllerBase {
+
+
+  protected $renderer;
+
+  /**
+   * Constructor for dependency injection.
+   */
+  public function __construct(Renderer $renderer) {
+    $this->renderer = $renderer;
+  }
+
+  /**
+   * Dependency Injection.
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('renderer')
+    );
+  }
 
   /**
    * Facet pages access callback.
@@ -150,7 +172,10 @@ class DefaultController extends ControllerBase {
         ],
       ],
     ];
-
+    $this->renderer->addCacheableDependency(
+      $facet_pages_wrapper,
+      $this->config('islandora_solr_facet_pages.settings')
+    );
     return $facet_pages_wrapper;
   }
 
