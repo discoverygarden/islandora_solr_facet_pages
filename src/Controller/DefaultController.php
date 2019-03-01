@@ -176,6 +176,10 @@ class DefaultController extends ControllerBase {
       $facet_pages_wrapper,
       $this->config('islandora_solr_facet_pages.settings')
     );
+    $this->renderer->addCacheableDependency(
+      $facet_pages_wrapper,
+      $this->config('islandora_solr.settings')
+    );
     return $facet_pages_wrapper;
   }
 
