@@ -1,0 +1,25 @@
+islandora_solr_facet_pages.settings:
+  type: config_object
+  label: Settings
+  mapping:
+    islandora_solr_facet_pages_limit:
+      type: integer
+    islandora_solr_facet_pages_facet_limit:
+      type: integer
+    islandora_solr_facet_pages_search_form:
+      type: boolean
+    islandora_solr_facet_pages_lucene_syntax_escape:
+      type: boolean
+    islandora_solr_facet_pages_lucene_regex_default:
+      type: string
+    islandora_solr_facet_pages_fields_data:
+      type: sequence
+      sequence:
+        type: mapping
+        mapping:
+          solr_field:
+            type: string
+          label:
+            type: string
+          path:
+            type: string

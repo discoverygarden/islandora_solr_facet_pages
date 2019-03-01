@@ -1,0 +1,10 @@
+admin:
+  version: 1.x
+  css:
+    base:
+      css/islandora_solr_facet_pages.admin.css: {}
+base:
+  version: 1.x
+  css:
+    base:
+      css/islandora_solr_facet_pages.base.css: {}

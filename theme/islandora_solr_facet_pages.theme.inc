@@ -8,6 +8,8 @@
  * functions.
  */
 
+use Drupal\Core\Url;
+
 /**
  * Implements template_preprocess_HOOK().
  */
@@ -20,7 +22,6 @@ function template_preprocess_islandora_solr_facet_pages_results(&$variables) {
  * Implements template_preprocess_HOOK().
  */
 function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
-
   $total = $variables['pager_data']['total'];
   $from = $variables['pager_data']['offset'] + 1;
   $to = $variables['pager_data']['offset'] + $variables['pager_data']['limit'];
@@ -29,11 +30,11 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
   }
 
   if ($total > 0) {
-    $results_count = t('Showing @from - @to of @total', array(
+    $results_count = t('Showing @from - @to of @total', [
       '@from' => $from,
       '@to' => $to,
       '@total' => $total,
-    ));
+    ]);
   }
   else {
     $results_count = t('No results found.');
@@ -57,7 +58,7 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
  *   - fq_map: Array which maps query filter so prefixes.
  *     eg: solr_field:A* => A
  *     Used to render the link values.
- *   - prefix: Currently active prefix for this page. Used to set active
+ *   - search_prefix: Currently active prefix for this page. Used to set active
  *     classes.
  *   - path: Currently active path which is set in the admin interface to
  *     decide what Solr field to facet on. Used to create URL's.
@@ -69,13 +70,17 @@ function template_preprocess_islandora_solr_facet_pages_wrapper(&$variables) {
  * @see islandora_solr_facet_pages_theme()
  * @see islandora_solr_facet_pages_build_letterer()
  */
-function theme_islandora_solr_facet_pages_letterer(&$vars) {
-  extract($vars);
+function theme_islandora_solr_facet_pages_letterer(array &$vars) {
+  $prefix = $vars['search_prefix'];
+  $facet_queries = $vars['facet_queries'];
+  $fq_map = $vars['fq_map'];
+  $path = $vars['path'];
 
   $output = '<ul class="islandora-solr-facet-pages-letterer">';
 
   $output .= '<li class="letter first' . ((t('ALL') == $prefix) ? ' active' : '') . '">';
-  $output .= '<a href="' . url('browse/' . $path) . '" title="' . t('Browse all') . '">' . t('ALL') . '</a>';
+  $output .= '<a href="' . Url::fromRoute('islandora_solr_facet_pages.callback', ['path' => $path])->toString() . '" title="' . t('Browse all') . '">' . t('ALL') . '</a>';
+
   $output .= '</li>';
 
   // Loop over facet queries to render letters.
@@ -86,8 +91,8 @@ function theme_islandora_solr_facet_pages_letterer(&$vars) {
 
     // Create link if facet bucket is not empty.
     if ($count > 0) {
-      $url = 'browse/' . $path . '/' . $value;
-      $output .= '<a href="' . url($url) . '" title="' . t('Browse starting with @letter', array('@letter' => $value)) . '">' . $value . '</a>';
+      $url = Url::fromRoute('islandora_solr_facet_pages.callback', ['path' => $path, 'prefix' => $value])->toString();
+      $output .= '<a href="' . $url . '" title="' . t('Browse starting with @letter', ['@letter' => $value]) . '">' . $value . '</a>';
     }
     else {
       $output .= $value;
@@ -95,6 +100,5 @@ function theme_islandora_solr_facet_pages_letterer(&$vars) {
     $output .= '</li>';
   }
   $output .= '</ul>';
-
   return $output;
 }
