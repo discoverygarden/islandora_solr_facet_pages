@@ -4,6 +4,7 @@ namespace Drupal\islandora_solr_facet_pages\Plugin\Block;
 
 use Drupal\islandora\Plugin\Block\AbstractConfiguredBlockBase;
 use Drupal\Core\Link;
+use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Provides a block to list facet pages.
@@ -21,38 +22,47 @@ class ListFacetPages extends AbstractConfiguredBlockBase {
    */
   public function build() {
     $block = [];
-    $fields = $this->configFactory->get('islandora_solr_facet_pages.settings')->get('islandora_solr_facet_pages_fields_data');
 
-    $items = [];
-    foreach ($fields as $value) {
-      $items[] = [
-        '#markup' => Link::createFromRoute(
-          $value['label'],
-          'islandora_solr_facet_pages.callback',
-          ['path' => $value['path']],
-          ['attributes' => ['title' => $value['label']]]
-        )->toString(),
-      ];
-    }
+    $config = $this->configFactory->get('islandora_solr_facet_pages.settings');
+    $fields = $config->get('islandora_solr_facet_pages_fields_data');
 
-    if (!empty($items)) {
+    $cache_meta = CacheableMetadata::createFromRenderArray($block)
+      ->addCacheableDependency($config);
+
+    if (!empty($fields)) {
       $block = [
         '#theme' => 'item_list',
-        '#items' => $items,
+        '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
         '#list_type' => 'ul',
         '#wrapper_attributes' => [
           'class' => 'islandora-solr-facet-pages-list',
         ],
       ];
     }
+
+    $cache_meta->applyTo($block);
+
     return $block;
   }
 
   /**
-   * {@inheritdoc}
+   * Helper; map configuration info into a render array.
+   *
+   * @param array $value
+   *   An array from configuration containing:
+   *   - label: The human-readable label for the field
+   *   - path: The path suffix for the field.
+   *
+   * @return array
+   *   A render array representing a link to the given config item's page.
    */
-  public function getCacheMaxAge() {
-    return 0;
+  protected function mapConfigItemToRenderArray(array $value) {
+    return Link::createFromRoute(
+      $value['label'],
+      'islandora_solr_facet_pages.callback',
+      ['path' => $value['path']],
+      ['attributes' => ['title' => $value['label']]]
+    )->toRenderable();
   }
 
 }
