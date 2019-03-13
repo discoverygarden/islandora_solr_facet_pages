@@ -21,24 +21,22 @@ class ListFacetPages extends AbstractConfiguredBlockBase {
    * {@inheritdoc}
    */
   public function build() {
-    $block = [];
-
     $config = $this->configFactory->get('islandora_solr_facet_pages.settings');
     $fields = $config->get('islandora_solr_facet_pages_fields_data');
 
-    $cache_meta = CacheableMetadata::createFromRenderArray($block)
+    $cache_meta = (new CacheableMetadata())
       ->addCacheableDependency($config);
 
-    if (!empty($fields)) {
-      $block = [
+    $block = !empty($fields) ?
+      [
         '#theme' => 'item_list',
         '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
         '#list_type' => 'ul',
         '#wrapper_attributes' => [
           'class' => 'islandora-solr-facet-pages-list',
         ],
-      ];
-    }
+      ] :
+      [];
 
     $cache_meta->applyTo($block);
 
