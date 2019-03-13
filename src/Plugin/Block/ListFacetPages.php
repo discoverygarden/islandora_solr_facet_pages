@@ -5,6 +5,8 @@ namespace Drupal\islandora_solr_facet_pages\Plugin\Block;
 use Drupal\islandora\Plugin\Block\AbstractConfiguredBlockBase;
 use Drupal\Core\Link;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Provides a block to list facet pages.
@@ -16,31 +18,41 @@ use Drupal\Core\Cache\CacheableMetadata;
  * )
  */
 class ListFacetPages extends AbstractConfiguredBlockBase {
+  const CONFIG = 'islandora_solr_facet_pages.settings';
+  const OFFSET = 'islandora_solr_facet_pages_fields_data';
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $config = $this->configFactory->get('islandora_solr_facet_pages.settings');
-    $fields = $config->get('islandora_solr_facet_pages_fields_data');
+    $config = $this->configFactory->get(static::CONFIG);
+    $fields = $config->get(static::OFFSET);
 
     $cache_meta = (new CacheableMetadata())
       ->addCacheableDependency($config);
 
-    $block = !empty($fields) ?
-      [
-        '#theme' => 'item_list',
-        '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
-        '#list_type' => 'ul',
-        '#wrapper_attributes' => [
-          'class' => 'islandora-solr-facet-pages-list',
-        ],
-      ] :
-      [];
+    $block = [
+      '#theme' => 'item_list',
+      '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
+      '#list_type' => 'ul',
+      '#wrapper_attributes' => [
+        'class' => 'islandora-solr-facet-pages-list',
+      ],
+    ];
 
     $cache_meta->applyTo($block);
 
     return $block;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function blockAccess(AccountInterface $account) {
+    $config = $this->configFactory->get(static::CONFIG);
+
+    return AccessResult::allowedIf($config->get(static::OFFSET))
+      ->addCacheableDependency($config);
   }
 
   /**
