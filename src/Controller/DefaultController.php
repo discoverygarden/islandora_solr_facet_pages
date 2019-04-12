@@ -8,6 +8,7 @@ use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Cache\CacheableMetadata;
 
 use Drupal\islandora_solr\SolrPhpClient\Apache\Solr\Apache_Solr_Service;
+use Drupal\islandora_solr\Form\AdminIndexSettings;
 use Drupal\islandora\Controller\DefaultController as IslandoraController;
 
 /**
@@ -80,7 +81,7 @@ class DefaultController extends ControllerBase {
     }
 
     // Use Solr faceting to get list of names.
-    $parsed_url = parse_url($solr_config->get('islandora_solr_url'));
+    $parsed_url = parse_url(AdminIndexSettings::stateGet('islandora_solr_url'));
 
     $solr = new Apache_Solr_Service($parsed_url['host'], $parsed_url['port'], $parsed_url['path']);
 
