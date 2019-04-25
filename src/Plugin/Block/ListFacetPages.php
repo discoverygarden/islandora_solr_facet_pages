@@ -52,6 +52,7 @@ class ListFacetPages extends AbstractConfiguredBlockBase {
     $config = $this->configFactory->get(static::CONFIG);
 
     return AccessResult::allowedIf($config->get(static::OFFSET))
+      ->andIf(AccessResult::allowedIfHasPermission($account, ISLANDORA_VIEW_OBJECTS))
       ->addCacheableDependency($config);
   }
 
