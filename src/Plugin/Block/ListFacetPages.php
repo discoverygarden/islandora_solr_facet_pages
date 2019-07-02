@@ -32,11 +32,14 @@ class ListFacetPages extends AbstractConfiguredBlockBase {
       ->addCacheableDependency($config);
 
     $block = [
-      '#theme' => 'item_list',
-      '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
-      '#list_type' => 'ul',
-      '#wrapper_attributes' => [
-        'class' => 'islandora-solr-facet-pages-list',
+      'list' => [
+        '#theme' => 'item_list',
+        '#items' => array_map([$this, 'mapConfigItemToRenderArray'], $fields),
+        '#list_type' => 'ul',
+        '#attributes' => ['class' => ['menu']],
+        '#wrapper_attributes' => [
+          'class' => 'islandora-solr-facet-pages-list',
+        ],
       ],
     ];
 
